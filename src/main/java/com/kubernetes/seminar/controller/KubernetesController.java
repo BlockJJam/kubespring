@@ -2,19 +2,23 @@ package com.kubernetes.seminar.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
+@RequiredArgsConstructor
 @RestController
 public class KubernetesController {
-    static final int MAX_COUNT = 1000000;
+
+    private final AsyncService asyncService;
     @GetMapping("/api/stop/before/kill")
     public ResponseEntity<Void> stopBeforeKill() {
         log.info("[STOP-BEFORE] kill spring application!!!");
-        System.exit(1);
+        asyncService.exitAsync();
         return ResponseEntity.ok().build();
     }
 
@@ -27,7 +31,7 @@ public class KubernetesController {
     @GetMapping("/api/stop/after/kill")
     public ResponseEntity<Void> nonStopAfterKill() {
         log.info("[STOP-AFTER] kill spring application!!!");
-        System.exit(1);
+        asyncService.exitAsync();
         return ResponseEntity.ok().build();
     }
 
@@ -39,18 +43,14 @@ public class KubernetesController {
 
     @GetMapping("/api/scale/before/loop")
     public ResponseEntity<Void> nonScaleOutAfterKill() throws InterruptedException {
-        List<String> list = new ArrayList<>();
-        for(int i=0; i< MAX_COUNT; i++) {
-            log.info("[SCALE-BEFORE] loop i: {}", i);
-            list.add("testtesttesttesttesttesttesttesttesttesttesttesttes"
-                + "ttesttesttesttesttesttesttesttesttesttesttesttesttestt"
-                + "esttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttestt"
-                + "esttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest"
-                + "esttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest"
-                + "esttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest");
-            Thread.sleep(500);
+//        asyncService.infiniteLoop();
+        log.info("[SCALE-BEFORE] infinite loop!!!");
+
+        while(true){
+//            log.info("[SCALE-BEFORE] infinite loop!!!");
+//            Thread.sleep(1000);
         }
-        return ResponseEntity.ok().build();
+//        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/api/scale/before/ok")
@@ -61,18 +61,12 @@ public class KubernetesController {
 
     @GetMapping("/api/scale/after/loop")
     public ResponseEntity<Void> scaleOutAfterKill() throws InterruptedException {
-        List<String> list = new ArrayList<>();
-        for(int i=0; i< MAX_COUNT; i++) {
-            log.info("[SCALE-AFTER] loop i: {}", i);
-            list.add("testtesttesttesttesttesttesttesttesttesttesttesttes"
-                + "ttesttesttesttesttesttesttesttesttesttesttesttesttestt"
-                + "esttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttestt"
-                + "esttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest"
-                + "esttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest"
-                + "esttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttesttest");
-            Thread.sleep(500);
+//        asyncService.infiniteLoop();
+        while(true){
+//            log.info("[SCALE-AFTER] infinite loop!!!");
+//            Thread.sleep(1000);
         }
-        return ResponseEntity.ok().build();
+//        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/api/scale/after/ok")
