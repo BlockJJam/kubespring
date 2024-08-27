@@ -2,16 +2,12 @@ server:
   port: 8021
   tomcat:
     max-connections: 1
-    accept-count: 1
+    accept-count: 5
     threads:
       max: 1  # Set the maximum number of threads to 1
       min-spare: 1  # Set the minimum number of spare threads to 1
-
 
 logging:
   level:
     root: DEBUG
 
-spring:
-  lifecycle:
-    timeout-per-shutdown-phase:10s # default 30s
